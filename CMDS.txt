@@ -1,0 +1,2 @@
+#To Run the bootimage
+alias noob = qemu-system-x86_64 -drive format=raw,file=target/x86_64-noobos/debug/bootimage-noob.bin
