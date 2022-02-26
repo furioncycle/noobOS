@@ -1,7 +1,7 @@
 ### noobOS
 
-Following along `os.phil-opp.com` to learn some
-basic in *RUST* 
+Following along to `os.phil-opp.com` to learn some
+basics in *RUST* 
 
 ### Goal 
  - [ ] See the hype with Rust 
