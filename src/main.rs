@@ -4,11 +4,13 @@
 //This tell the compiler that we have no main 
 //function
 #![no_main]
-mod vga_buffer;
+#![feature(custom_test_frameworks)]
+#![test_runner(noob::test_runner)]
+#![reexport_test_harness_main = "test_main"]
+
 
 use core::panic::PanicInfo;
-
-static HELLO: &[u8] = b"Hello World!";
+use noob::println;
 
 //Ensures the rusts compiler outputs the functions
 //name _start
@@ -18,14 +20,31 @@ pub extern "C" fn _start() -> ! {
     //linker looks for a function named _start
     //by default
     println!("Hello Again{}","!");
-    panic!("Panic at some message");
+    
+    #[cfg(test)]
+    test_main();
+
     loop{}
 }
 
-//This function is called on panic
+
+#[test_case]
+fn trivial_assertion() {
+    assert_eq!(1,1);
+}
+
+
+
+
+#[cfg(not(test))]
 #[panic_handler]
-fn panic(info: &PanicInfo) -> !{
-    println!("{}",info);
-    loop{}
+fn panic(info: &PanicInfo) -> ! {
+        println!("{}", info);
+        loop {}
 }
 
+#[cfg(test)]
+#[panic_handler]
+fn panic(info: &PanicInfo) -> ! {
+        noob::test_panic_handler(info)
+}
